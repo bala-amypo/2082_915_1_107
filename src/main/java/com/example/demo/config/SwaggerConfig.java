@@ -22,8 +22,6 @@ public class SwaggerConfig {
         productionServer.setUrl("https://9096.408procr.amypo.ai/");
         productionServer.setDescription("Production Server");
 
-    
-
         // API Information
         Info apiInfo = new Info()
                 .title("Demo API")
@@ -38,7 +36,7 @@ public class SwaggerConfig {
 
         return new OpenAPI()
                 .info(apiInfo)
-                .servers(List.of(localServer, productionServer))
+                .servers(List.of(productionServer)) // ✅ ONLY production server
                 .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("BearerAuth", jwtScheme));
