@@ -1,0 +1,38 @@
+package com.example.demo.controller;
+
+import com.example.demo.model.DamageClaim;
+import com.example.demo.service.DamageClaimService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/claims")
+@Tag(name = "Damage Claims")
+public class DamageClaimController {
+    
+    private final DamageClaimService claimService;
+    
+    public DamageClaimController(DamageClaimService claimService) {
+        this.claimService = claimService;
+    }
+    
+    @PostMapping("/file/{parcelId}")
+    @Operation(summary = "File damage claim")
+    public ResponseEntity<DamageClaim> fileClaim(@PathVariable Long parcelId, @RequestBody DamageClaim claim) {
+        return ResponseEntity.ok(claimService.fileClaim(parcelId, claim));
+    }
+    
+    @PutMapping("/evaluate/{claimId}")
+    @Operation(summary = "Evaluate damage claim")
+    public ResponseEntity<DamageClaim> evaluateClaim(@PathVariable Long claimId) {
+        return ResponseEntity.ok(claimService.evaluateClaim(claimId));
+    }
+    
+    @GetMapping("/{claimId}")
+    @Operation(summary = "Get damage claim")
+    public ResponseEntity<DamageClaim> getClaim(@PathVariable Long claimId) {
+        return ResponseEntity.ok(claimService.getClaim(claimId));
+    }
+}
