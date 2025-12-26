@@ -22,10 +22,7 @@ public class SwaggerConfig {
         productionServer.setUrl("https://9096.408procr.amypo.ai/");
         productionServer.setDescription("Production Server");
 
-        // Local Server
-        Server localServer = new Server();
-        localServer.setUrl("http://localhost:8080");
-        localServer.setDescription("Local Development Server");
+    
 
         // API Information
         Info apiInfo = new Info()
