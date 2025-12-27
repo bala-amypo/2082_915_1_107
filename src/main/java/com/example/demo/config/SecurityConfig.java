@@ -15,34 +15,34 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
     
-    private final JwtFilter jwtFilter;
-    
-    public SecurityConfig(JwtFilter jwtFilter) {
-        this.jwtFilter = jwtFilter;
-    }
-    
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-   @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        private final JwtFilter jwtFilter;
+            
+                public SecurityConfig(JwtFilter jwtFilter) {
+                        this.jwtFilter = jwtFilter;
+                            }
+                                
+                                    @Bean
+                                        public PasswordEncoder passwordEncoder() {
+                                                return new BCryptPasswordEncoder();
+                                                    }
+                                                        
+                                                           @Bean
+                                                           public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers(
-                "/swagger-ui/index.html",
-                "/v3/api-docs/**",
-                "/auth/**",
-                "/swagger-ui.html"
-            ).permitAll()
-            .anyRequest().authenticated()
-        )
-        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                                                               http
+                                                                       .csrf(csrf -> csrf.disable())
+                                                                               .authorizeHttpRequests(auth -> auth
+                                                                                           .requestMatchers(
+                                                                                                           "/swagger-ui/index.html",
+                                                                                                                           "/v3/api-docs/**",
+                                                                                                                                           "/auth/**",
+                                                                                                                                                           "/swagger-ui.html"
+                                                                                                                                                                       ).permitAll()
+                                                                                                                                                                                   .anyRequest().authenticated()
+                                                                                                                                                                                           )
+                                                                                                                                                                                                   .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-    return http.build();
-}
+                                                                                                                                                                                                       return http.build();
+                                                                                                                                                                                                       }
 
-}
+                                                                                                                                                                                                       }
