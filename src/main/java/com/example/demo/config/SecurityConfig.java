@@ -14,35 +14,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    
-        private final JwtFilter jwtFilter;
-            
-                public SecurityConfig(JwtFilter jwtFilter) {
-                        this.jwtFilter = jwtFilter;
-                            }
-                                
-                                    @Bean
-                                        public PasswordEncoder passwordEncoder() {
-                                                return new BCryptPasswordEncoder();
-                                                    }
-                                                        
-                                                           @Bean
-                                                           public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-                                                               http
-                                                                       .csrf(csrf -> csrf.disable())
-                                                                               .authorizeHttpRequests(auth -> auth
-                                                                                           .requestMatchers(
-                                                                                                           "/swagger-ui/index.html",
-                                                                                                                           "/v3/api-docs/**",
-                                                                                                                                           "/auth/**",
-                                                                                                                                                           "/swagger-ui.html"
-                                                                                                                                                                       ).permitAll()
-                                                                                                                                                                                   .anyRequest().authenticated()
-                                                                                                                                                                                           )
-                                                                                                                                                                                                   .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    private final JwtFilter jwtFilter;
 
-                                                                                                                                                                                                       return http.build();
-                                                                                                                                                                                                       }
+    public SecurityConfig(JwtFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
 
-                                                                                                                                                                                                       }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/auth/**",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui.html"
+                ).permitAll()
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .formLogin(form -> form.disable())
+            .httpBasic(basic -> basic.disable());
+
+        return http.build();
+    }
+}
