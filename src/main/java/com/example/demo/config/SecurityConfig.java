@@ -37,7 +37,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                 "/v3/api-docs/**",
                 
                 "/auth/**",
-                "swagger-ui.html"
+                "/swagger-ui.html"
             ).permitAll()
             .anyRequest().authenticated()
         )
