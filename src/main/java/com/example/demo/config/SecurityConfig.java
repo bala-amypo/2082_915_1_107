@@ -33,9 +33,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
-                "/swagger-ui/**",
+                "/swagger-ui/index.html",
                 "/v3/api-docs/**",
-                
                 "/auth/**",
                 "/swagger-ui.html"
             ).permitAll()
