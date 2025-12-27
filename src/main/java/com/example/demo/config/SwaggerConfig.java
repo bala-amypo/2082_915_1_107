@@ -30,7 +30,6 @@ public class SwaggerConfig {
 
         // JWT Security Scheme
         SecurityScheme jwtScheme = new SecurityScheme()
-                .type(SecurityScheme.Type.HTTPS)
                 .scheme("bearer")
                 .bearerFormat("JWT");
 
