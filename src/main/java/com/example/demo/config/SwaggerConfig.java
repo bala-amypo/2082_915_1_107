@@ -19,7 +19,7 @@ public class SwaggerConfig {
 
         // Production Server
         Server productionServer = new Server();
-        productionServer.setUrl("https://9096.408procr.amypo.ai/");
+        productionServer.setUrl("https://9096.408procr.amypo.ai");
         productionServer.setDescription("Production Server");
 
         // API Information
