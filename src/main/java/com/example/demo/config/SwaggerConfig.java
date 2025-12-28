@@ -2,10 +2,9 @@ package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,29 +14,25 @@ import java.util.List;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI customOpenAPI() {
 
-        // Production Server
-        Server productionServer = new Server();
-        productionServer.setUrl("https://9096.408procr.amypo.ai/");
-        productionServer.setDescription("Production Server");
-
-        // API Information
-        Info apiInfo = new Info()
-                .title("Demo API")
-                .version("1.0")
-                .description("Demo Application APIs");
-
-        // JWT Security Scheme
-        SecurityScheme jwtScheme = new SecurityScheme()
+        SecurityScheme bearerAuth = new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
                 .bearerFormat("JWT");
 
+        Server server = new Server()
+                .url("https://9097.32procr.amypo.ai/")
+                .description("Production Server");
+
         return new OpenAPI()
-                .info(apiInfo)
-                .servers(List.of(productionServer)) // ✅ ONLY production server
-                .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
-                .components(new Components()
-                        .addSecuritySchemes("BearerAuth", jwtScheme));
+                .addSecurityItem(
+                        new SecurityRequirement().addList("bearerAuth")
+                )
+                .components(
+                        new Components().addSecuritySchemes("bearerAuth", bearerAuth)
+                )
+                .servers(List.of(server));
     }
 }
+
